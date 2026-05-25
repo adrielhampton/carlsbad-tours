@@ -1,5 +1,5 @@
 ---
-import CollectionHub from '../../layouts/CollectionHub.astro';
+import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const entries = (await getCollection('seasons', e => !e.data.draft))
@@ -13,7 +13,7 @@ const meta = {
 }['seasons'];
 ---
 
-<CollectionHub
+<Layout
   title={meta.title}
   description={meta.intro}
   collection="seasons"
