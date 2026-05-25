@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('wildlife', ({ data }) => !data.draft);
+  return articles.map(article => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { title, description, pubDate, updatedDate, author, authorCredential, tags, taxon, seasonalPeak } = article.data;
+
+const eyebrowParts = ['Wildlife'];
+if (taxon) eyebrowParts.push(taxon);
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  author={author}
+  authorCredential={authorCredential}
+  section="Wildlife"
+  eyebrow={eyebrowParts.join(' · ')}
+  tags={tags}
+>
+  {seasonalPeak && (
+    <div style="margin-bottom:1.5rem; padding:0.75rem 1.25rem; background:var(--color-sage-muted); border-radius:6px; font-family:var(--font-mono); font-size:0.85rem; color:var(--color-sage);">
+      🗓 Seasonal peak: {seasonalPeak}
+    </div>
+  )}
+  <Content />
+</ArticleLayout>

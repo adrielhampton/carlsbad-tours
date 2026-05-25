@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map(guide => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+const { title, description, pubDate, updatedDate, author, authorCredential, tags, guideType, difficulty, duration } = guide.data;
+
+const eyebrowParts = ['Guide'];
+if (guideType !== 'general') eyebrowParts.push(guideType.charAt(0).toUpperCase() + guideType.slice(1).replace('-',' '));
+if (difficulty) eyebrowParts.push(difficulty.charAt(0).toUpperCase() + difficulty.slice(1));
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  author={author}
+  authorCredential={authorCredential}
+  section="Guides"
+  eyebrow={eyebrowParts.join(' · ')}
+  tags={tags}
+>
+  {(difficulty || duration) && (
+    <div style="display:flex; gap:2rem; margin-bottom:1.5rem; padding:0.75rem 1.25rem; background:var(--color-sand-pale); border-radius:6px; flex-wrap:wrap;">
+      {difficulty && (
+        <div>
+          <span style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--color-dusk);">Difficulty</span>
+          <p style="font-weight:600; color:var(--color-dusk); margin:0; text-transform:capitalize;">{difficulty}</p>
+        </div>
+      )}
+      {duration && (
+        <div>
+          <span style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--color-dusk);">Duration</span>
+          <p style="font-weight:600; color:var(--color-dusk); margin:0;">{duration}</p>
+        </div>
+      )}
+    </div>
+  )}
+  <Content />
+</ArticleLayout>

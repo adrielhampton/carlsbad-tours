@@ -1,0 +1,128 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  author?: string;
+  authorCredential?: string;
+  section?: string;
+  articleType?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author = 'Adriel Hampton',
+  authorCredential = 'California Naturalist, Certified 2026',
+  section,
+  articleType = 'Article',
+  canonicalUrl,
+  ogImage = '/og-image.jpg',
+} = Astro.props;
+
+const siteUrl = 'https://carlsbadtours.com';
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+const fullTitle = title === 'Home' ? 'CarlsbadTours.com — City of Lagoons' : `${title} | CarlsbadTours.com`;
+
+const schemaOrg = {
+  '@context': 'https://schema.org',
+  '@type': articleType,
+  name: title,
+  description,
+  url: canonical,
+  ...(pubDate && { datePublished: pubDate.toISOString() }),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  author: {
+    '@type': 'Person',
+    name: author,
+    description: authorCredential,
+    url: `${siteUrl}/about`,
+    sameAs: ['https://www.inaturalist.org/people/adrielhampton'],
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'CarlsbadTours.com',
+    url: siteUrl,
+  },
+  image: ogImageUrl,
+};
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:site_name" content="CarlsbadTours.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
+  <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+</head>
+<body>
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Carlsbad<span>Tours</span></a>
+      <ul class="nav-links" role="list">
+        <li><a href="/places" class={section === 'Places' ? 'active' : ''}>Places</a></li>
+        <li><a href="/wildlife" class={section === 'Wildlife' ? 'active' : ''}>Wildlife</a></li>
+        <li><a href="/seasons" class={section === 'Seasons' ? 'active' : ''}>Seasons</a></li>
+        <li><a href="/guides" class={section === 'Guides' ? 'active' : ''}>Guides</a></li>
+        <li><a href="/about" class={section === 'About' ? 'active' : ''}>About</a></li>
+        <li><a href="https://lakecalavera.com" target="_blank" rel="noopener">Lake Calavera ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+  <main id="main-content">
+    <slot />
+  </main>
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <p style="color:white; font-family:var(--font-display); font-size:1.1rem; margin:0 0 0.5rem;">CarlsbadTours.com</p>
+          <p style="margin:0; line-height:1.6;">Nature interpretation for Carlsbad &amp; North County San Diego. City of Lagoons.</p>
+        </div>
+        <div>
+          <p style="color:white; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; font-family:var(--font-mono); margin:0 0 0.75rem;">Explore</p>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.3rem;">
+            <li><a href="/places">Places</a></li>
+            <li><a href="/wildlife">Wildlife</a></li>
+            <li><a href="/seasons">Seasons</a></li>
+            <li><a href="/guides">Guides</a></li>
+          </ul>
+        </div>
+        <div>
+          <p style="color:white; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; font-family:var(--font-mono); margin:0 0 0.75rem;">About</p>
+          <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.3rem;">
+            <li><a href="/about">Adriel Hampton, California Naturalist</a></li>
+            <li><a href="https://lakecalavera.com" target="_blank" rel="noopener">LakeCalavera.com ↗</a></li>
+            <li><a href="https://www.inaturalist.org/people/adrielhampton" target="_blank" rel="noopener">iNaturalist ↗</a></li>
+          </ul>
+        </div>
+      </div>
+      <p style="border-top: 1px solid rgba(255,255,255,0.1); padding-top:1.5rem; margin:0; font-size:0.8rem;">
+        © {new Date().getFullYear()} CarlsbadTours.com · Written by <a href="/about">Adriel Hampton</a>, {authorCredential}
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

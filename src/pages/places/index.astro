@@ -1,0 +1,22 @@
+---
+import CollectionHub from '../../layouts/CollectionHub.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('places', e => !e.data.draft))
+  .sort((a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0));
+
+const meta = {
+  places:   { title: 'Places to Explore',          intro: 'Lagoons, preserves, coastline, and tide pools — the natural geography of Carlsbad and North County San Diego.' },
+  wildlife: { title: 'Wildlife of Carlsbad',        intro: 'Birds, marine life, native plants, and the habitats that support them across Carlsbad\'s lagoons and open spaces.' },
+  seasons:  { title: 'Seasons & Natural Events',    intro: 'Carlsbad nature runs on its own calendar. Fall migration, spring wildflowers, winter shorebirds — here\'s what to look for and when.' },
+  guides:   { title: 'Field Guides & How-Tos',      intro: 'Practical guides for birding, tide pooling, family outings, and getting the most from Carlsbad\'s natural areas.' },
+}['places'];
+---
+
+<CollectionHub
+  title={meta.title}
+  description={meta.intro}
+  collection="places"
+  intro={meta.intro}
+  entries={entries}
+/>

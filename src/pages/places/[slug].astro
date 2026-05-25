@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const places = await getCollection('places', ({ data }) => !data.draft);
+  return places.map(place => ({
+    params: { slug: place.id },
+    props: { place },
+  }));
+}
+
+const { place } = Astro.props;
+const { Content } = await render(place);
+const { title, description, pubDate, updatedDate, author, authorCredential, tags, location, habitat, birdSpeciesCount, acreage } = place.data;
+
+const eyebrowParts = ['Place'];
+if (location) eyebrowParts.push(location);
+if (habitat.length > 0) eyebrowParts.push(habitat[0]);
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  author={author}
+  authorCredential={authorCredential}
+  section="Places"
+  eyebrow={eyebrowParts.join(' · ')}
+  tags={tags}
+  articleType="TouristAttraction"
+>
+  {(acreage || birdSpeciesCount) && (
+    <div style="display:flex; gap:2rem; margin-bottom:2rem; padding:1rem 1.5rem; background:var(--color-lagoon-pale); border-radius:6px; flex-wrap:wrap;">
+      {acreage && (
+        <div>
+          <span style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--color-lagoon);">Acreage</span>
+          <p style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--color-lagoon); margin:0;">{acreage.toLocaleString()}</p>
+        </div>
+      )}
+      {birdSpeciesCount && (
+        <div>
+          <span style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--color-lagoon);">Bird Species</span>
+          <p style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--color-lagoon); margin:0;">{birdSpeciesCount}+</p>
+        </div>
+      )}
+      {habitat.length > 0 && (
+        <div>
+          <span style="font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--color-lagoon);">Habitat Types</span>
+          <p style="font-size:0.9rem; color:var(--color-lagoon); margin:0; line-height:1.5;">{habitat.join(', ')}</p>
+        </div>
+      )}
+    </div>
+  )}
+  <Content />
+</ArticleLayout>

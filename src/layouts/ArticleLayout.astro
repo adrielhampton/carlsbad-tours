@@ -1,0 +1,60 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  authorCredential?: string;
+  section: string;
+  eyebrow?: string;
+  tags?: string[];
+  articleType?: string;
+}
+
+const {
+  title, description, pubDate, updatedDate,
+  author = 'Adriel Hampton',
+  authorCredential = 'California Naturalist, Certified 2026',
+  section, eyebrow, tags = [], articleType = 'Article',
+} = Astro.props;
+
+const dateDisplay = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const updatedDisplay = updatedDate?.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Layout title={title} description={description} pubDate={pubDate} updatedDate={updatedDate}
+  author={author} authorCredential={authorCredential} section={section} articleType={articleType}>
+  <article itemscope itemtype="https://schema.org/Article">
+    <meta itemprop="author" content={author} />
+    <meta itemprop="description" content={description} />
+    <div class="container">
+      <header class="article-header">
+        {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+        <h1 itemprop="headline">{title}</h1>
+        <p style="font-size:1.2rem; color:var(--color-stone); margin-top:0.75rem; font-style:italic;">{description}</p>
+        <div class="article-meta">
+          <span>By <strong style="color:var(--color-ink)">{author}</strong></span>
+          {authorCredential && <span class="credential"> · {authorCredential}</span>}
+          <span> · <time itemprop="datePublished" datetime={pubDate.toISOString()}>{dateDisplay}</time></span>
+          {updatedDate && <span> · Updated <time itemprop="dateModified" datetime={updatedDate.toISOString()}>{updatedDisplay}</time></span>}
+        </div>
+        {tags.length > 0 && (
+          <div style="margin-top:1rem; display:flex; gap:0.4rem; flex-wrap:wrap;">
+            {tags.map((tag: string) => <span class="tag">{tag}</span>)}
+          </div>
+        )}
+      </header>
+      <div class="prose" itemprop="articleBody">
+        <slot />
+      </div>
+      <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--color-sage-muted);">
+        <a href={`/${section.toLowerCase()}`} style="font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">
+          ← All {section}
+        </a>
+      </div>
+    </div>
+  </article>
+</Layout>

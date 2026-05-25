@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Home"
+  description="Nature interpretation for Carlsbad & North County San Diego. Three lagoons, coastal sage scrub, birding guides, tide pools, and family nature adventures."
+  section=""
+>
+  <section class="hero">
+    <div class="container" style="position:relative; z-index:1;">
+      <span class="eyebrow">Carlsbad, California · North County San Diego</span>
+      <h1>City of<br/>Lagoons</h1>
+      <p style="max-width:52ch; margin-top:1rem;">
+        Carlsbad sits at the heart of three coastal lagoons covering 1,000+ acres —
+        some of California's richest wildlife habitat.
+      </p>
+      <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="/places" class="btn btn-primary">Explore Places</a>
+        <a href="/guides" class="btn btn-outline">Guides & Trails</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--color-mist);">
+    <div class="container">
+      <span style="font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--color-lagoon);">The Three Lagoons</span>
+      <h2 style="margin-top:0.5rem;">1,000+ Acres of Wild Carlsbad</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:1.5rem; margin-top:2rem;">
+        <a href="/places/batiquitos-lagoon" class="card" style="text-decoration:none; display:block;">
+          <div style="height:6px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div>
+          <div class="card-body">
+            <p class="card-title">Batiquitos Lagoon</p>
+            <p class="card-desc">600+ acres, 180+ bird species, endangered Snowy Plover nesting habitat.</p>
+          </div>
+        </a>
+        <a href="/places/agua-hedionda-lagoon" class="card" style="text-decoration:none; display:block;">
+          <div style="height:6px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div>
+          <div class="card-body">
+            <p class="card-title">Agua Hedionda Lagoon</p>
+            <p class="card-desc">400 acres, tidewater goby critical habitat, Discovery Center on-site.</p>
+          </div>
+        </a>
+        <a href="/places/buena-vista-lagoon" class="card" style="text-decoration:none; display:block;">
+          <div style="height:6px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div>
+          <div class="card-body">
+            <p class="card-title">Buena Vista Lagoon</p>
+            <p class="card-desc">235+ bird species, California's first ecological reserve (1969).</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:2rem;">
+        <a href="/wildlife" style="text-decoration:none; padding:2rem; border-radius:8px; border:1px solid var(--color-sage-muted); display:block;">
+          <div style="width:3rem; height:3px; background:var(--color-sage); margin-bottom:1rem;"></div>
+          <p style="font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-ink); margin:0 0 0.5rem;">Wildlife</p>
+          <p style="color:var(--color-stone); font-size:0.95rem; margin:0; line-height:1.6;">Birds, marine life, coastal sage scrub plants. What lives here and how to find it.</p>
+        </a>
+        <a href="/seasons" style="text-decoration:none; padding:2rem; border-radius:8px; border:1px solid var(--color-sage-muted); display:block;">
+          <div style="width:3rem; height:3px; background:var(--color-sand); margin-bottom:1rem;"></div>
+          <p style="font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-ink); margin:0 0 0.5rem;">Seasons</p>
+          <p style="color:var(--color-stone); font-size:0.95rem; margin:0; line-height:1.6;">What to look for each month — migration, breeding, wildflowers, shorebirds.</p>
+        </a>
+        <a href="/guides" style="text-decoration:none; padding:2rem; border-radius:8px; border:1px solid var(--color-sage-muted); display:block;">
+          <div style="width:3rem; height:3px; background:var(--color-dusk); margin-bottom:1rem;"></div>
+          <p style="font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--color-ink); margin:0 0 0.5rem;">Guides</p>
+          <p style="color:var(--color-stone); font-size:0.95rem; margin:0; line-height:1.6;">Family outings, birding primers, tide pool timing, gear recommendations.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--color-sand-pale); padding:3rem 0;">
+    <div class="container">
+      <span style="font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--color-dusk);">Your Guide</span>
+      <h2 style="margin-top:0.4rem;">Adriel Hampton, California Naturalist</h2>
+      <p style="color:var(--color-stone); max-width:55ch;">
+        Certified California Naturalist (2026), active iNaturalist contributor, and Carlsbad resident.
+        I walk Lake Calavera Preserve several times a week. This is the guide I wish existed when I moved here.
+      </p>
+      <a href="/about" style="font-family:var(--font-mono); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em;">More about Adriel →</a>
+    </div>
+  </section>
+</Layout>

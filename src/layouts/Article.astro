@@ -1,0 +1,124 @@
+---
+import Base from './Base.astro';
+
+export interface Props {
+  title:       string;
+  description: string;
+  pubDate?:    Date;
+  updatedDate?: Date;
+  heroImage?:  string;
+  tags?:       string[];
+  faqItems?:   { question: string; answer: string }[];
+  collection?: string;
+}
+
+const { title, description, pubDate, updatedDate, heroImage, tags = [], faqItems, collection } = Astro.props;
+---
+
+<Base
+  title={title}
+  description={description}
+  image={heroImage}
+  type="article"
+  pubDate={pubDate}
+  faqItems={faqItems}
+  schemaType="Article"
+>
+
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+
+    <!-- Breadcrumb -->
+    {collection && (
+      <nav class="text-xs text-gray-400 mb-6 uppercase tracking-wider" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-lagoon transition-colors">Home</a>
+        <span class="mx-2">›</span>
+        <a href={`/${collection}`} class="hover:text-lagoon transition-colors capitalize">{collection}</a>
+        <span class="mx-2">›</span>
+        <span class="text-dusk">{title}</span>
+      </nav>
+    )}
+
+    <!-- Header -->
+    <header class="mb-8">
+      {heroImage && (
+        <img
+          src={heroImage}
+          alt={title}
+          class="w-full aspect-video object-cover rounded-lg mb-8 shadow-md"
+          loading="eager"
+        />
+      )}
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-4">
+          {tags.map(tag => (
+            <span class="text-xs px-2 py-1 bg-lagoon/10 text-lagoon rounded-full font-body tracking-wide">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      <h1 class="font-display font-bold text-3xl sm:text-4xl text-dusk leading-tight mb-4">
+        {title}
+      </h1>
+      <p class="text-lg text-gray-600 font-body leading-relaxed">{description}</p>
+
+      <div class="flex items-center gap-3 mt-6 pt-6 border-t border-salt-dark text-sm text-gray-400">
+        <span>By <strong class="text-dusk">Adriel Hampton</strong>, California Naturalist</span>
+        {pubDate && (
+          <>
+            <span>·</span>
+            <time datetime={pubDate.toISOString()}>
+              {pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+          </>
+        )}
+        {updatedDate && (
+          <>
+            <span>·</span>
+            <span>Updated <time datetime={updatedDate.toISOString()}>
+              {updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+            </time></span>
+          </>
+        )}
+      </div>
+    </header>
+
+    <!-- Body content -->
+    <div class="prose prose-lg prose-neutral max-w-none
+      prose-headings:font-display prose-headings:text-dusk
+      prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+      prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+      prose-p:leading-relaxed prose-p:text-gray-700
+      prose-a:text-lagoon prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-dusk
+      prose-blockquote:border-lagoon prose-blockquote:text-gray-600
+      prose-img:rounded-lg prose-img:shadow-md">
+      <slot />
+    </div>
+
+    <!-- FAQ section if present -->
+    {faqItems && faqItems.length > 0 && (
+      <aside class="mt-12 border-t border-salt-dark pt-8">
+        <h2 class="font-display font-bold text-2xl text-dusk mb-6">Frequently Asked Questions</h2>
+        <dl class="space-y-6">
+          {faqItems.map(({ question, answer }) => (
+            <div>
+              <dt class="font-semibold text-dusk mb-2">{question}</dt>
+              <dd class="text-gray-600 leading-relaxed">{answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
+    )}
+
+    <!-- Sister site callout -->
+    <div class="mt-12 p-6 bg-lagoon/5 border border-lagoon/20 rounded-lg">
+      <p class="text-sm text-gray-600">
+        <strong class="text-dusk">Exploring Lake Calavera?</strong>{' '}
+        Visit <a href="https://lakecalavera.com" class="text-lagoon hover:underline">LakeCalavera.com</a> for
+        a full species field guide to the preserve — 80+ native species with live photos from iNaturalist.
+      </p>
+    </div>
+
+  </article>
+</Base>
