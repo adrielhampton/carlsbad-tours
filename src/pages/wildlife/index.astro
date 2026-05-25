@@ -1,22 +1,21 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-
-const entries = (await getCollection('wildlife', e => !e.data.draft))
-  .sort((a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0));
-
-const meta = {
-  places:   { title: 'Places to Explore',          intro: 'Lagoons, preserves, coastline, and tide pools — the natural geography of Carlsbad and North County San Diego.' },
-  wildlife: { title: 'Wildlife of Carlsbad',        intro: 'Birds, marine life, native plants, and the habitats that support them across Carlsbad\'s lagoons and open spaces.' },
-  seasons:  { title: 'Seasons & Natural Events',    intro: 'Carlsbad nature runs on its own calendar. Fall migration, spring wildflowers, winter shorebirds — here\'s what to look for and when.' },
-  guides:   { title: 'Field Guides & How-Tos',      intro: 'Practical guides for birding, tide pooling, family outings, and getting the most from Carlsbad\'s natural areas.' },
-}['wildlife'];
+const allWildlife = (await getCollection('wildlife', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
-
-<Layout
-  title={meta.title}
-  description={meta.intro}
-  collection="wildlife"
-  intro={meta.intro}
-  entries={entries}
-/>
+<Layout title="Wildlife" description="Birds, marine life, coastal sage scrub plants, and lagoon wildlife of Carlsbad and North County San Diego." section="Wildlife">
+  <section class="hero" style="padding:3rem 0 2.5rem; background:linear-gradient(160deg, var(--color-sage) 0%, var(--color-lagoon) 100%);">
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="eyebrow">Birds, Marine Life, Plants & Habitats</span>
+      <h1>Wildlife</h1>
+      <p style="max-width:55ch;">What lives here, where to find it, and what to look for.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2>Wildlife Guides</h2>
+      {allWildlife.length > 0 ? (<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem; margin-top:1.5rem;">{allWildlife.map(article => (<a href={`/wildlife/${article.id}`} class="card" style="text-decoration:none; display:block;"><div class="card-body"><p class="card-title">{article.data.title}</p><p class="card-desc">{article.data.description}</p></div></a>))}</div>) : (<p style="color:var(--color-stone); font-style:italic;">Wildlife guides coming soon.</p>)}
+    </div>
+  </section>
+</Layout>

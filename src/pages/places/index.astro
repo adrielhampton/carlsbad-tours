@@ -1,22 +1,47 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-
-const entries = (await getCollection('places', e => !e.data.draft))
-  .sort((a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0));
-
-const meta = {
-  places:   { title: 'Places to Explore',          intro: 'Lagoons, preserves, coastline, and tide pools — the natural geography of Carlsbad and North County San Diego.' },
-  wildlife: { title: 'Wildlife of Carlsbad',        intro: 'Birds, marine life, native plants, and the habitats that support them across Carlsbad\'s lagoons and open spaces.' },
-  seasons:  { title: 'Seasons & Natural Events',    intro: 'Carlsbad nature runs on its own calendar. Fall migration, spring wildflowers, winter shorebirds — here\'s what to look for and when.' },
-  guides:   { title: 'Field Guides & How-Tos',      intro: 'Practical guides for birding, tide pooling, family outings, and getting the most from Carlsbad\'s natural areas.' },
-}['places'];
+const allPlaces = (await getCollection('places', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
-
-<Layout
-  title={meta.title}
-  description={meta.intro}
-  collection="places"
-  intro={meta.intro}
-  entries={entries}
-/>
+<Layout title="Places" description="Explore Carlsbad's natural places — three coastal lagoons, Lake Calavera Preserve, Terramar tide pools, and more." section="Places">
+  <section class="hero" style="padding:3rem 0 2.5rem;">
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="eyebrow">Carlsbad & North County San Diego</span>
+      <h1>Places</h1>
+      <p style="max-width:55ch;">Three lagoons. A volcanic preserve. Tidal pools. This is Carlsbad's natural geography.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2>The Three Lagoons</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem; margin-top:1.5rem; margin-bottom:3rem;">
+        <a href="/places/batiquitos-lagoon" class="card" style="text-decoration:none; display:
+cat > src/pages/places/index.astro << 'EOF'
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+const allPlaces = (await getCollection('places', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+<Layout title="Places" description="Explore Carlsbad's natural places — three coastal lagoons, Lake Calavera Preserve, Terramar tide pools, and more." section="Places">
+  <section class="hero" style="padding:3rem 0 2.5rem;">
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="eyebrow">Carlsbad & North County San Diego</span>
+      <h1>Places</h1>
+      <p style="max-width:55ch;">Three lagoons. A volcanic preserve. Tidal pools. This is Carlsbad's natural geography.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <h2>The Three Lagoons</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem; margin-top:1.5rem; margin-bottom:3rem;">
+        <a href="/places/batiquitos-lagoon" class="card" style="text-decoration:none; display:block;"><div style="height:5px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div><div class="card-body"><p class="card-title">Batiquitos Lagoon</p><p class="card-desc">600+ acres · 180+ bird species · Endangered species nesting habitat</p></div></a>
+        <a href="/places/agua-hedionda-lagoon" class="card" style="text-decoration:none; display:block;"><div style="height:5px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div><div class="card-body"><p class="card-title">Agua Hedionda Lagoon</p><p class="card-desc">400 acres · Tidewater goby critical habitat · Discovery Center on-site</p></div></a>
+        <a href="/places/buena-vista-lagoon" class="card" style="text-decoration:none; display:block;"><div style="height:5px; background:linear-gradient(90deg, var(--color-lagoon), var(--color-lagoon-mid));"></div><div class="card-body"><p class="card-title">Buena Vista Lagoon</p><p class="card-desc">350 acres · 235+ bird species · California's first ecological reserve (1969)</p></div></a>
+      </div>
+      <h2>More Places</h2>
+      {allPlaces.length > 0 ? (<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1.5rem; margin-top:1.5rem;">{allPlaces.map(place => (<a href={`/places/${place.id}`} class="card" style="text-decoration:none; display:block;"><div class="card-body"><p class="card-title">{place.data.title}</p><p class="card-desc">{place.data.description}</p></div></a>))}</div>) : (<p style="color:var(--color-stone); font-style:italic;">More place guides coming soon.</p>)}
+    </div>
+  </section>
+</Layout>

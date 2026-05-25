@@ -1,40 +1,30 @@
 ---
-import Base from '../layouts/Base.astro';
+import Layout from '../layouts/Layout.astro';
 ---
-
-<Base
-  title="About Adriel Hampton — California Naturalist"
-  description="Adriel Hampton is a certified California Naturalist (2026), active iNaturalist contributor, and Carlsbad resident. CarlsbadTours.com is grounded in his field experience."
-  schemaType="WebPage"
->
-  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-    <h1 class="font-display font-bold text-4xl text-dusk mb-4">About</h1>
-    <p class="text-lg text-gray-600 leading-relaxed mb-8">
-      I'm Adriel Hampton — California Naturalist, Carlsbad resident, and the author of everything on this site.
-    </p>
-
-    <div class="prose prose-lg prose-neutral max-w-none prose-headings:font-display prose-headings:text-dusk prose-a:text-lagoon">
-
-      <h2>Why this site exists</h2>
-      <p>
-        Carlsbad has three tidal lagoons covering over 1,000 acres, miles of coastal sage scrub, and more 
-        bird species than most people realize. None of that is well documented online for people who actually 
-        want to go out and experience it. CarlsbadTours.com is my attempt to fix that.
-      </p>
-
-      <h2>Credentials</h2>
-      <ul>
-        <li>California Naturalist, certified 2026 (Preserve Calavera cohort)</li>
-        <li>Active <a href="https://www.inaturalist.org/people/adrielhampton">iNaturalist contributor</a> — observations from Lake Calavera Preserve and beyond</li>
-        <li>Author of <a href="https://lakecalavera.com">LakeCalavera.com</a>, a mobile field guide to 80+ native species at Lake Calavera Preserve</li>
-      </ul>
-
-      <h2>Sister site</h2>
-      <p>
-        <a href="https://lakecalavera.com">LakeCalavera.com</a> is a companion project — 
-        a deep species reference for Lake Calavera Preserve specifically. 
-        CarlsbadTours.com covers the broader Carlsbad geography and the experiential layer.
-      </p>
+<Layout title="About" description="Adriel Hampton is a certified California Naturalist (2026), active iNaturalist contributor, and the guide behind CarlsbadTours.com and LakeCalavera.com." section="About">
+  <section class="hero" style="padding:3rem 0 2.5rem;">
+    <div class="container" style="position:relative;z-index:1;">
+      <span class="eyebrow">California Naturalist · Carlsbad, CA</span>
+      <h1>About</h1>
     </div>
-  </article>
-</Base>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <h2>Adriel Hampton</h2>
+        <p>I'm a certified California Naturalist (2026, through Preserve Calavera) and a Carlsbad resident who walks Lake Calavera Preserve several times a week. I've been documenting the wildlife and plants of North County San Diego through iNaturalist for years — you can find my observation record at <a href="https://www.inaturalist.org/people/adrielhampton" target="_blank" rel="noopener">iNaturalist/adrielhampton</a>.</p>
+        <p>CarlsbadTours.com exists because this geography deserves better than it gets online. Carlsbad sits at the center of three coastal lagoons covering more than 1,000 acres and almost none of it is documented in a way that's useful to visitors or curious locals.</p>
+        <h2>Credentials & Field Experience</h2>
+        <ul>
+          <li><strong>California Naturalist, Certified 2026</strong> — completed through Preserve Calavera</li>
+          <li><strong>iNaturalist contributor</strong> — active observer with a substantial record at Lake Calavera Preserve and surrounding North County habitats</li>
+          <li><strong>LakeCalavera.com</strong> — deep species field guide for Lake Calavera Preserve, 80+ native species with live iNaturalist photos</li>
+        </ul>
+        <h2>Sister Site: LakeCalavera.com</h2>
+        <p><a href="https://lakecalavera.com">LakeCalavera.com</a> is a deep species field guide for Lake Calavera Preserve. CarlsbadTours.com is the experiential layer — the whole geography, all the places, practical guides for getting out there.</p>
+        <h2>Contact</h2>
+        <p>Reach out at <a href="mailto:carlsbadtours@adrielhampton.com">carlsbadtours@adrielhampton.com</a>.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
